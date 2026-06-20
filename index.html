@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Un Pasito | App Anti-Procrastinación</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f7dff5, #e6f5df, #fff8ec);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #3d2b3d;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 520px;
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: 0 12px 35px rgba(96, 57, 96, 0.18);
+      text-align: center;
+    }
+
+    .logo {
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: 30px;
+      color: #6b3f75;
+      margin-bottom: 8px;
+    }
+
+    .subtitulo {
+      font-size: 16px;
+      color: #6f5b6f;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      font-weight: bold;
+      margin-bottom: 8px;
+      color: #5b3c5b;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 110px;
+      border: 2px solid #d8b9df;
+      border-radius: 18px;
+      padding: 15px;
+      font-size: 16px;
+      resize: none;
+      outline: none;
+      margin-bottom: 16px;
+      background: #fffafd;
+      color: #3d2b3d;
+    }
+
+    textarea:focus {
+      border-color: #9b66aa;
+      box-shadow: 0 0 0 4px rgba(155, 102, 170, 0.12);
+    }
+
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 18px;
+      background: #8a4f99;
+      color: white;
+      padding: 15px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    button:hover {
+      background: #6f3f7c;
+      transform: translateY(-1px);
+    }
+
+    .resultado {
+      margin-top: 24px;
+      background: #f8effa;
+      border-radius: 22px;
+      padding: 20px;
+      display: none;
+      text-align: left;
+      border: 1px solid #ead4ef;
+    }
+
+    .resultado h2 {
+      font-size: 19px;
+      color: #6b3f75;
+      margin-bottom: 10px;
+    }
+
+    .frase {
+      font-size: 20px;
+      font-weight: bold;
+      color: #442044;
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+
+    .accion {
+      font-size: 16px;
+      color: #5b4b5b;
+      line-height: 1.5;
+      background: white;
+      padding: 13px;
+      border-radius: 15px;
+    }
+
+    .nota {
+      font-size: 13px;
+      color: #7b6d7b;
+      margin-top: 18px;
+      line-height: 1.4;
+    }
+
+    footer {
+      margin-top: 22px;
+      font-size: 13px;
+      color: #7b6d7b;
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <div class="logo">🌷</div>
+    <h1>Un Pasito</h1>
+    <p class="subtitulo">
+      Escribe cómo te sientes y recibe una frase anti-procrastinación con una acción pequeña para empezar sin ajorarte.
+    </p>
+
+    <label for="sentimiento">¿Cómo te sientes hoy?</label>
+    <textarea id="sentimiento" placeholder="Ejemplo: Me siento cansada, abrumada y sin ganas de hacer nada..."></textarea>
+
+    <button onclick="generarFrase()">Dame mi frase</button>
+
+    <section class="resultado" id="resultado">
+      <h2>Para ti hoy:</h2>
+      <p class="frase" id="frase"></p>
+      <p class="accion" id="accion"></p>
+    </section>
+
+    <p class="nota">
+      Recuerda: esta app no te regaña. Solo te acompaña a dar un paso pequeño.
+    </p>
+
+    <footer>Creado con cariño para moverte sin presión 💜</footer>
+  </main>
+
+  <script>
+    const frases = {
+      cansada: [
+        {
+          frase: "No tienes que terminarlo todo hoy; con empezar un poco ya estás avanzando.",
+          accion: "Haz solo una tarea por 5 minutos. Cuando pasen, decides si sigues o descansas."
+        },
+        {
+          frase: "Estar cansada no significa que no puedas; significa que necesitas ir con más suavidad.",
+          accion: "Escoge la tarea más fácil de tu lista y haz solo el primer paso."
+        },
+        {
+          frase: "Tu progreso también cuenta cuando va lento.",
+          accion: "Pon una alarma de 10 minutos y trabaja sin exigirte perfección."
+        }
+      ],
+      abrumada: [
+        {
+          frase: "No mires todo lo que falta; mira solo el próximo paso.",
+          accion: "Escribe 3 cosas que tienes pendientes y escoge solamente una para empezar."
+        },
+        {
+          frase: "Cuando todo parece demasiado, lo más valiente es dividirlo en pedacitos.",
+          accion: "Parte tu tarea en 3 mini pasos y completa solo el primero."
+        },
+        {
+          frase: "Respira. No tienes que cargar el día entero de una vez.",
+          accion: "Respira profundo 3 veces y empieza por lo que tome menos de 5 minutos."
+        }
+      ],
+      bloqueada: [
+        {
+          frase: "No necesitas ganas para empezar; a veces las ganas llegan después del primer paso.",
+          accion: "Abre la tarea, documento o material. Solo abrirlo ya rompe el bloqueo."
+        },
+        {
+          frase: "La acción pequeña de hoy puede romper el bloqueo que llevas días cargando.",
+          accion: "Haz una versión fea, rápida o incompleta. Después la mejoras."
+        },
+        {
+          frase: "Aunque no te sientas lista, sigues siendo capaz.",
+          accion: "Haz una lista rápida de lo que sí puedes hacer ahora mismo."
+        }
+      ],
+      general: [
+        {
+          frase: "No tienes que hacerlo perfecto, solo tienes que empezarlo.",
+          accion: "Empieza con 5 minutos. No busques perfección, busca movimiento."
+        },
+        {
+          frase: "Un paso pequeño hoy vale más que una gran intención para mañana.",
+          accion: "Elige una sola cosa y haz el primer movimiento ahora."
+        },
+        {
+          frase: "Hoy no se trata de hacerlo todo; se trata de demostrarte que sí puedes moverte.",
+          accion: "Haz una tarea pequeña que puedas terminar en menos de 10 minutos."
+        },
+        {
+          frase: "Si te abruma el todo, enfócate en lo próximo.",
+          accion: "Pregúntate: ¿cuál es el próximo paso más pequeño? Haz solo ese."
+        },
+        {
+          frase: "Tu yo de mañana te va a agradecer el esfuerzo pequeño que hagas hoy.",
+          accion: "Prepara algo que te facilite mañana: una lista, un material o un espacio limpio."
+        },
+        {
+          frase: "No te castigues por procrastinar; regálate un comienzo chiquito.",
+          accion: "Di en voz alta: 'solo voy a empezar'. Luego haz 5 minutos."
+        }
+      ]
+    };
+
+    function elegirAleatoria(lista) {
+      return lista[Math.floor(Math.random() * lista.length)];
+    }
+
+    function generarFrase() {
+      const texto = document.getElementById("sentimiento").value.toLowerCase();
+      let categoria = "general";
+
+      if (texto.includes("cans") || texto.includes("agot") || texto.includes("sueño")) {
+        categoria = "cansada";
+      } else if (texto.includes("abrum") || texto.includes("ansios") || texto.includes("estres") || texto.includes("presion")) {
+        categoria = "abrumada";
+      } else if (texto.includes("bloque") || texto.includes("sin ganas") || texto.includes("desmotiv") || texto.includes("no puedo")) {
+        categoria = "bloqueada";
+      }
+
+      const respuesta = elegirAleatoria(frases[categoria]);
+
+      document.getElementById("frase").textContent = respuesta.frase;
+      document.getElementById("accion").textContent = "Acción pequeña: " + respuesta.accion;
+      document.getElementById("resultado").style.display = "block";
+    }
+  </script>
+</body>
+</html>
